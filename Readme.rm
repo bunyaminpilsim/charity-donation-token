@@ -1,0 +1,72 @@
+# Transparent Charity Donation Platform
+
+## Overview
+This project is a Stellar-based token smart contract for a transparent charity donation platform. Built with Rust and Soroban SDK, it enables donors to contribute tokens, tracks donations transparently, and allows admins to freeze/unfreeze accounts for security. The contract is deployed on the Stellar testnet.
+
+## Features
+- **Token Management**: Mint, transfer, and burn donation tokens (`mint`, `transfer`, `burn`).
+- **Donation Tracking**: Every donation is logged as an event for transparency (`transfer` events).
+- **Account Freezing**: Admins can freeze suspicious donor accounts to prevent token transfers (`freeze_account`).
+- **Account Unfreezing**: Admins can unfreeze verified accounts to restore transfer capabilities (`unfreeze_account`).
+- **Donation Balance Query**: Check a donor's remaining balance (`get_donation_balance`).
+- **Admin Controls**: Only admins can mint tokens, freeze/unfreeze accounts, or change the admin (`set_admin`).
+
+## Use-Case
+The contract powers a charity donation platform where:
+- Donors send tokens to recipients (e.g., NGOs, individuals).
+- Admins freeze accounts suspected of fraud and unfreeze after verification.
+- Donation events are publicly logged for transparency.
+- Donors can check their contribution history via `get_donation_balance`.
+
+## Contract Address
+- **Stellar Testnet Address**: [To be filled after deployment]
+
+## Installation and Usage
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository-url>
+   cd charity-donation-token
+   ```
+2. **Build the Contract**:
+   ```bash
+   soroban contract build
+   ```
+3. **Deploy to Testnet**:
+   - Create a Stellar testnet account and fund it via the Stellar Laboratory: https://laboratory.stellar.org/#account-creator?network=test
+   - Deploy the contract:
+     ```bash
+     soroban contract deploy --network testnet --source-account <YOUR_ACCOUNT_SECRET_KEY> --wasm target/wasm32-unknown-unknown/release/charity_donation_token.wasm
+     ```
+   - Save the contract address and update this README.
+4. **Interact with the Contract**:
+   - Use `soroban` CLI or a Stellar SDK to call functions like `mint`, `transfer`, `freeze_account`, etc.
+   - Example: Mint tokens:
+     ```bash
+     soroban contract invoke --network testnet --source-account <YOUR_ACCOUNT> --id <CONTRACT_ADDRESS> -- mint --to <DONOR_ADDRESS> --amount 1000
+     ```
+   - Example: Freeze an account:
+     ```bash
+     soroban contract invoke --network testnet --source-account <ADMIN_ACCOUNT> --id <CONTRACT_ADDRESS> -- freeze_account --account <DONOR_ADDRESS>
+     ```
+
+## Testing
+The contract includes unit tests in `src/test.rs` covering:
+- Donation transfers and balance checks.
+- Freezing and unfreezing accounts.
+- Preventing transfers from frozen accounts.
+- Admin operations (set admin, read admin).
+- Allowance operations (approve, transfer_from).
+- Burn operations (burn, burn_from).
+- Metadata management (decimals, name, symbol).
+Run tests:
+```bash
+cargo test
+```
+
+## Future Improvements
+- Support for donation categories (e.g., education, health) with separate token types.
+- Donor badges as NFT-like tokens for high contributors.
+- Integration with a frontend for easier donor interaction.
+
+## License
+MIT License
