@@ -22,7 +22,7 @@ fn is_account_frozen(e: &Env, account: &Address) -> bool {
         .unwrap_or(false)
 }
 
-fn emit_custom_event(e: &Env, event_type: &str, admin: Address, account: Address) {
+fn emit_custom_event(e: &Env, event_type: Symbol, admin: Address, account: Address) {
     e.events().publish((event_type, admin, account), ());
 }
 
@@ -86,7 +86,7 @@ impl Token {
         let key = (FROZEN_PREFIX, account.clone());
         e.storage().instance().set(&key, &true);
 
-        emit_custom_event(&e, "frz_acct", admin, account);
+        emit_custom_event(&e, Symbol::new(&e, "frz_acct"), admin, account);
     }
 
     pub fn unfreeze_account(e: Env, account: Address) {
@@ -100,7 +100,7 @@ impl Token {
         let key = (FROZEN_PREFIX, account.clone());
         e.storage().instance().remove(&key);
 
-        emit_custom_event(&e, "unfrz_acc", admin, account);
+        emit_custom_event(&e, Symbol::new(&e, "unfrz_acc"), admin, account);
     }
 
     pub fn get_donation_balance(e: Env, id: Address) -> i128 {

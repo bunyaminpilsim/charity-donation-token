@@ -455,7 +455,7 @@
           "v0": {
             "topics": [
               {
-                "string": "frz_acct"
+                "symbol": "frz_acct"
               },
               {
                 "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM"
